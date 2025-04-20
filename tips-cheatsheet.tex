@@ -1,76 +1,113 @@
 \documentclass[11pt]{article}
 
 % --- PACKAGES ---
-\usepackage[utf8]{inputenc} % Handle UTF-8 input
-\usepackage[T1]{fontenc}    % Use T1 font encoding for better character support
-\usepackage{geometry}       % For page layout customization
-\usepackage{enumitem}       % For controlling lists (like enumerate start number)
-\usepackage{fancyhdr}       % For custom headers and footers
-\usepackage{hyperref}       % For PDF metadata and potential links
-\usepackage{lipsum}         % For placeholder text (not used in final doc, but good for testing)
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{enumitem}       % For list control (needed for start=)
+\usepackage{fancyhdr}
+\usepackage[most]{tcolorbox} % For styled boxes (needs 'most' for breakable etc.)
+\usepackage{multicol}       % For multi-column layout inside boxes
+\usepackage{hyperref}
+\usepackage{xcolor}         % For defining custom colors
 
 % --- PAGE GEOMETRY ---
-% Adjust margins for a cheatsheet feel (more text, less margin)
 \geometry{
     a4paper,
-    left=2cm,
-    right=2cm,
+    left=1.8cm,  % Slightly reduce margins for more space
+    right=1.8cm,
     top=2.5cm,
-    bottom=2.5cm
+    bottom=2.5cm,
+    columnsep=1.5em % Define separation between columns for multicol
 }
 
 % --- HEADERS & FOOTERS ---
-\pagestyle{fancy}           % Enable custom headers/footers
-\fancyhf{}                  % Clear default headers/footers
-\lhead{The Pragmatic Programmer - 100 Tips Cheatsheet} % Left header
-\rhead{Page \thepage}        % Right header with page number
-\renewcommand{\headrulewidth}{0.4pt} % Line below header
-\renewcommand{\footrulewidth}{0pt}   % No line above footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{The Pragmatic Programmer - 100 Tips Cheatsheet} % Updated header text
+\rhead{Page \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
 
 % --- PDF METADATA ---
 \hypersetup{
-    pdftitle={The Pragmatic Programmer - 100 Tips Cheatsheet},
+    pdftitle={The Pragmatic Programmer - Tip Cheatsheet}, % Updated title
     pdfauthor={zucchivan},
-    pdfsubject={Summary of the 100 tips from The Pragmatic Programmer, 20th Anniversary Edition},
-    pdfkeywords={pragmatic programmer, programming, software development, tips, summary, cheatsheet},
-    colorlinks=false,       % Set true for colored links if needed
-    pdfborder={0 0 0},      % No borders around links
+    pdfsubject={Cheatsheet of the 100 tips from The Pragmatic Programmer, 20th Anniversary Edition},
+    pdfkeywords={the pragmatic programmer, pragmatic programmer,programming, software development, tips, summary, cheatsheet},
+    colorlinks=false,
+    pdfborder={0 0 0},
 }
+
+% --- TCOLORBOX STYLE DEFINITION ---
+% Define a style for the chapter boxes
+\definecolor{pragblue}{HTML}{2A69A6} % A slightly muted blue
+\definecolor{praglightblue}{HTML}{EAF2FA}
+
+\tcbset{
+    pragchapterbox/.style={
+        breakable,             % Allows box to break across pages
+        enhanced,              % Needed for advanced features
+        colback=praglightblue, % Background color
+        colframe=pragblue,     % Frame color
+        fonttitle=\bfseries,   % Bold title font
+        coltitle=white,        % Title text color
+        colbacktitle=pragblue, % Title background color
+        attach boxed title to top left={yshift=-2mm, xshift=3mm},
+        boxed title style={
+            sharp corners,
+            boxrule=0.5pt,
+        },
+        sharp corners,         % Use sharp corners for the main box
+        boxrule=1pt,           % Thickness of the frame
+        left=6mm, right=6mm, top=2mm, bottom=4mm, % Internal padding
+        toptitle=3mm, bottomtitle=3mm, % Padding for title box
+        title=#1               % Argument is the title text
+    }
+}
+
+% --- MULTICOL SETTINGS ---
+% Optional: Adjust column separation if needed globally,
+% otherwise rely on geometry's columnsep or adjust locally.
+% \setlength{\columnsep}{1.5em}
+
 
 % --- DOCUMENT START ---
 \begin{document}
 
 % --- TITLE PAGE ---
-\thispagestyle{empty} % No header/footer on the title page
+\thispagestyle{empty}
 \begin{center}
     {\Huge\bfseries The Pragmatic Programmer\par}
     {\Large\bfseries 20th Anniversary Edition\par}
     \vspace{2cm}
-    {\Huge\bfseries Tip Cheatsheet\par} % Changed line
+    {\Huge\bfseries 100 Tips Cheatsheet\par}
     \vspace{3cm}
 
-    % --- Abstract --- Start
-    \begin{minipage}{0.8\textwidth} % Constrain width of abstract
-        \large % Slightly larger font for abstract
-        \hrule % Rule above abstract
-        \vspace{0.5em} % Space after rule
-        \textbf{Abstract:} This document provides a concise summary of the 100 essential tips from the 20th Anniversary Edition of 'The Pragmatic Programmer' by David Thomas and Andrew Hunt. It serves as a quick reference guide to the core principles and practical advice presented in the book, covering topics from software craftsmanship and design to coding practices, testing, and project management.
-        \vspace{0.5em} % Space before rule
-        \hrule % Rule below abstract
+    % --- Abstract ---
+    \begin{minipage}{0.8\textwidth}
+        \large
+        \hrule
+        \vspace{0.5em}
+        \textbf{Abstract:} This document provides a concise summary of the 100 essential tips from the 20th Anniversary Edition of 'The Pragmatic Programmer' by David Thomas and Andrew Hunt. It serves as a quick reference guide to the core principles and practical advice presented in the book, covering topics from software craftsmanship and design to coding practices, testing, and project management, presented within chapter sections.
+        \vspace{0.5em}
+        \hrule
     \end{minipage}
     % --- Abstract --- End
 
-    \vfill % Pushes content to top/bottom
-    \rule{\textwidth}{0.4pt} % Horizontal line
-    \ Sourced from the book by David Thomas and Andrew Hunt
+    \vfill
+    \rule{\textwidth}{0.4pt}
+    \ Created by @zucchivan, sourced from the book by David Thomas and Andrew Hunt
 \end{center}
-\clearpage % Start content on the next page
+\clearpage
 
 % --- MAIN CONTENT ---
-\pagestyle{fancy} % Apply the fancy page style from here onwards
+\pagestyle{fancy}
 
-\section*{Chapter 1: A Pragmatic Philosophy}
-\begin{enumerate}[label=\arabic*., itemsep=1ex] % Start list, add some space between items
+% --- Chapter 1 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 1: A Pragmatic Philosophy}]
+\begin{multicols}{2} % Start 2 columns for this chapter
+\begin{enumerate}[label=\arabic*., itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*] % Tighter list spacing
     \item \textbf{Care About Your Craft}
     Take pride in the software you create, treating development as a professional discipline where quality, skill, and attention to detail matter deeply. Aim for excellence and continuous improvement in your work.
 
@@ -101,11 +138,13 @@
     \item \textbf{Critically Analyze What You Read and Hear}
     Question and evaluate information actively, considering the source, context, biases, and applicability, rather than blindly accepting advice, trends, or vendor claims.
 \end{enumerate}
+\end{multicols} % End 2 columns
+\end{tcolorbox}
 
-\newpage % Ensure next chapter starts on a new page (optional, LaTeX might do this anyway)
-
-\section*{Chapter 2: A Pragmatic Approach}
-\begin{enumerate}[label=\arabic*., start=11, itemsep=1ex]
+% --- Chapter 2 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 2: A Pragmatic Approach}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=11, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{English is Just Another Programming Language}
     Apply the same principles of clarity, precision, consistency (DRY), and careful construction to your written and spoken communication as you do to your code.
 
@@ -145,11 +184,13 @@
     \item \textbf{Estimate to Avoid Surprises}
     Use estimation not just for scheduling but as a vital tool to better understand the scope, complexity, potential risks, and feasibility of a task or project, thereby managing expectations.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\newpage
-
-\section*{Chapter 3: The Basic Tools}
-\begin{enumerate}[label=\arabic*., start=24, itemsep=1ex]
+% --- Chapter 3 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 3: The Basic Tools}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=24, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{Iterate the Schedule with the Code}
     Refine project schedule estimates continuously based on the actual progress and learning gained during each development iteration, acknowledging that initial estimates are inherently uncertain.
 
@@ -165,9 +206,13 @@
     \item \textbf{Always Use Version Control}
     Employ a version control system for *everything* you create that forms part of the project (code, documentation, configuration, notes, scripts, etc.), tracking history, enabling collaboration, and providing an essential safety net.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\section*{Chapter 4: Pragmatic Paranoia}
-\begin{enumerate}[label=\arabic*., start=29, itemsep=1ex]
+% --- Chapter 4 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 4: Pragmatic Paranoia}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=29, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{Fix the Problem, Not the Blame}
     When a bug occurs, focus your energy on understanding the root cause and implementing a solution, rather than wasting time and damaging morale by trying to assign blame.
 
@@ -204,11 +249,13 @@
     \item \textbf{Finish What You Start}
     Ensure that the function, method, or object that allocates a resource (such as memory, file handles, sockets, locks) is also responsible for its deallocation to prevent leaks and maintain balance.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\newpage
-
-\section*{Chapter 5: Bend, or Break}
-\begin{enumerate}[label=\arabic*., start=41, itemsep=1ex]
+% --- Chapter 5 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 5: Bend, or Break}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=41, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{Act Locally}
     Design components to be self-contained, operating on their own internal state and data passed to them, minimizing dependencies on global state or distant parts of the system.
 
@@ -254,11 +301,13 @@
     \item \textbf{Parameterize Your App Using External Configuration}
     Extract parameters, credentials, URLs, feature flags, and other environment-specific details from your code into external configuration files or services, making your application adaptable without code changes.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\newpage
-
-\section*{Chapter 6: Concurrency}
-\begin{enumerate}[label=\arabic*., start=56, itemsep=1ex]
+% --- Chapter 6 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 6: Concurrency}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=56, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{Analyze Workflow to Improve Concurrency}
     Model your system's workflows (e.g., using activity diagrams) to identify independent tasks that can potentially be executed concurrently or in parallel, optimizing for throughput and responsiveness.
 
@@ -274,9 +323,13 @@
     \item \textbf{Use Blackboards to Coordinate Workflow}
     Employ blackboard systems where independent agents or services cooperate by reading and writing facts or data to a shared space, allowing for flexible and decoupled coordination of complex workflows.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\section*{Chapter 7: While You Are Coding}
-\begin{enumerate}[label=\arabic*., start=61, itemsep=1ex]
+% --- Chapter 7 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 7: While You Are Coding}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=61, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{Listen to Your Inner Lizard}
     Pay attention to your gut feelings, doubts, or uneasiness while coding; these non-verbal signals from your subconscious often indicate underlying problems or risks that warrant investigation.
 
@@ -319,11 +372,13 @@
     \item \textbf{Name Well; Rename When Needed}
     Choose names for variables, functions, classes, etc., that clearly reveal their intent and purpose; don't hesitate to rename things when their original name becomes misleading or inaccurate due to code evolution.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\newpage
-
-\section*{Chapter 8: Before the Project}
-\begin{enumerate}[label=\arabic*., start=75, itemsep=1ex]
+% --- Chapter 8 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 8: Before the Project}]
+\begin{multicols}{2}
+\begin{enumerate}[label=\arabic*., start=75, itemsep=1ex, topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{No One Knows Exactly What They Want}
     Accept that clients and users rarely have a complete and accurate understanding of their requirements upfront; requirements emerge and evolve through a process of exploration and feedback.
 
@@ -345,11 +400,16 @@
     \item \textbf{Don't Think Outside the Box—Find the Box}
     Instead of ignoring constraints, focus on accurately identifying the *real* limitations and boundaries (the box) of a problem, as well as the degrees of freedom within which a solution can be found.
 \end{enumerate}
+\end{multicols}
+\end{tcolorbox}
 
-\newpage
-
-\section*{Chapter 9: Pragmatic Projects}
-\begin{enumerate}[label=\arabic*., start=82, itemsep=1ex]
+% --- Chapter 9 ---
+\begin{tcolorbox}[pragchapterbox={Chapter 9: Pragmatic Projects}]
+\small % *** ADDED: Reduce font size for this chapter block ***
+\begin{multicols}{2}
+\raggedcolumns % Keep this from the previous attempt
+\begin{enumerate}[label=\arabic*., start=82, itemsep=0.8ex, % *** MODIFIED: Slightly reduced itemsep ***
+                  topsep=0pt, partopsep=0pt, labelwidth=!, labelindent=0pt, leftmargin=*]
     \item \textbf{Don’t Go into the Code Alone}
     Leverage collaborative practices like pair programming or mob programming to improve code quality, share knowledge, and solve complex problems more effectively than working in isolation.
 
@@ -377,36 +437,39 @@
     \item \textbf{Test Early, Test Often, Test Automatically}
     Integrate comprehensive, automated testing into every stage of the development process, starting with unit tests written alongside the code, to catch bugs early and provide rapid feedback.
 
-    \item \textbf{Coding Ain't Done 'Til All the Tests Run}
+    \item \textbf{Coding Ain't Done 'Til All the Tests Run} % Tip 91
     Consider a piece of functionality incomplete until it is accompanied by robust automated tests that verify its correctness; passing tests are part of the definition of "done."
 
-    \item \textbf{Use Saboteurs to Test Your Testing}
+    \item \textbf{Use Saboteurs to Test Your Testing} % Tip 92
     Verify the effectiveness of your test suite by deliberately introducing bugs (or using automated tools like mutation testing or chaos engineering) and ensuring the tests correctly detect the failures.
 
-    \item \textbf{Test State Coverage, Not Code Coverage}
+    \item \textbf{Test State Coverage, Not Code Coverage} % Tip 93
     Focus testing efforts on exercising the important states and transitions within your code and its data, rather than merely aiming for high line or branch coverage, which doesn't guarantee detection of state-related bugs.
 
-    \item \textbf{Find Bugs Once}
+    \item \textbf{Find Bugs Once} % Tip 94
     When a bug is found (especially by a human), ensure it's the *last* time that specific bug is found by creating an automated test that permanently guards against its recurrence.
 
-    \item \textbf{Don't Use Manual Procedures}
+    \item \textbf{Don't Use Manual Procedures} % Tip 95
     Automate every aspect of the build, test, and deployment process; manual steps are error-prone, inconsistent, and hinder the ability to deliver reliably and frequently.
 
-    \item \textbf{Delight Users, Don't Just Deliver Code}
+    \item \textbf{Delight Users, Don't Just Deliver Code} % Tip 96
     Focus on understanding and exceeding your users' underlying expectations and solving their actual business problems, rather than simply fulfilling the letter of a requirements specification.
 
-    \item \textbf{Sign Your Work}
+    \item \textbf{Sign Your Work} % Tip 97
     Take professional pride and ownership in the code and systems you build, associating your name with quality, reliability, and craftsmanship.
 
-    \item \textbf{First, Do No Harm}
+    \item \textbf{First, Do No Harm} % Tip 98
     Be acutely aware of the ethical implications and potential negative consequences of the software you create; actively strive to protect users and society from harm.
 
-    \item \textbf{Don't Enable Scumbags}
+    \item \textbf{Don't Enable Scumbags} % Tip 99
     Take ethical responsibility for the purpose and impact of your work; refuse to participate in projects that facilitate illegal, unethical, or harmful activities.
 
-    \item \textbf{It’s Your Life. Share It. Celebrate It. Build It. And Have Fun!}
+    \item \textbf{It’s Your Life. Share It. Celebrate It. Build It. And Have Fun!} % Tip 100
     Remember to enjoy the challenging and rewarding craft of software development, share your passion and knowledge, celebrate achievements, and build a fulfilling life and career.
 \end{enumerate}
+\end{multicols} % End 2 columns
+\end{tcolorbox}
+
 
 % --- DOCUMENT END ---
 \end{document}
